@@ -1,0 +1,68 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+class Stock {  
+    private String symbol;
+    private double price;
+
+    public Stock(String symbol, double price) {  
+        this.symbol = symbol;
+        this.price = price;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return symbol + ": $" + price;
+    }
+}
+
+class MarketData {
+    private Map<String, Stock> stocks = new HashMap<>();
+    private Random random = new Random();
+
+    public MarketData() {
+        stocks.put("AAPL", new Stock("AAPL", 150.00));
+        stocks.put("GOOG", new Stock("GOOG", 2800.00));
+        stocks.put("AMZN", new Stock("AMZN", 3400.00));
+    }
+
+    public void simulateMarketFluctuations() {
+        for (Stock stock : stocks.values()) {
+            double change = (random.nextDouble() - 0.5) * 10;
+            stock.setPrice(stock.getPrice() + change);
+        }
+    }
+
+    public Stock getStock(String symbol) {
+        return stocks.get(symbol);
+    }
+
+    public Map<String, Stock> getAllStocks() {
+        return stocks;
+    }
+}
+
+public class StockTradingPlatform {
+    public static void main(String[] args) {
+        MarketData marketData = new MarketData();
+        marketData.simulateMarketFluctuations();
+        
+        // Display all stocks
+        for (Stock stock : marketData.getAllStocks().values()) {
+            System.out.println(stock);
+        }
+    }
+}
